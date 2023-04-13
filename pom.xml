@@ -6,7 +6,7 @@
 
     <groupId>lk.ijse.dep10</groupId>
     <artifactId>bakeshop-pos-system</artifactId>
-    <version>1.0.0</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <properties>
