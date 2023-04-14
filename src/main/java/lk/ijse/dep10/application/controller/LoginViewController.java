@@ -52,7 +52,7 @@ public class LoginViewController {
                 Stage stage = (Stage) btnLogin.getScene().getWindow();
                 stage.setTitle("POS System");
                 stage.setScene(mainViewScene);
-                stage.sizeToScene();
+                stage.setMaximized(true);
                 stage.centerOnScreen();
             }
         } catch (Exception e) {
