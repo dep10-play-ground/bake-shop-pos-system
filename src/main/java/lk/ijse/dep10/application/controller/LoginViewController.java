@@ -47,7 +47,7 @@ public class LoginViewController {
                 txtUserName.requestFocus();
                 txtUserName.selectAll();
             }else{
-                URL mainViewUrl = getClass().getResource("/view/MainView.fxml");
+                URL mainViewUrl = getClass().getResource("/view/MainScene.fxml");
                 Scene mainViewScene = new Scene(FXMLLoader.load(mainViewUrl));
                 Stage stage = (Stage) btnLogin.getScene().getWindow();
                 stage.setTitle("POS System");
