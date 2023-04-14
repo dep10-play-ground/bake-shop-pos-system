@@ -39,7 +39,7 @@ public class SignUpViewController {
 
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "INSERT INTO Employee (user_name, password, role, contact) " +
+            String sql = "INSERT INTO Employee (username, password, role, contact) " +
                     "VALUES (?, ?, 'ADMIN', ?)";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, txtUserName.getText());

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Employee (
-  user_name VARCHAR(30) PRIMARY KEY ,
+  username VARCHAR(30) PRIMARY KEY ,
   password VARCHAR(30) NOT NULL ,
   role ENUM('USER','ADMIN') NOT NULL ,
   contact VARCHAR(11) NOT NULL
