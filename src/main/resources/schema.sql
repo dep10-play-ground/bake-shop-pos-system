@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Employee (
+  user_name VARCHAR(30) PRIMARY KEY ,
+  password VARCHAR(30) NOT NULL ,
+  role ENUM('usr','admin') NOT NULL ,
+  contact VARCHAR(11) NOT NULL
+);
+
+INSERT INTO Employee(USER_NAME, PASSWORD, ROLE, CONTACT) VALUES('bhathiya',1234,'admin',0702809450);
+
