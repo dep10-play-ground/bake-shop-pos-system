@@ -37,12 +37,24 @@ public class AppInitializer extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         generateSchemaIfNotExist();
-//        primaryStage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/LoginView.fxml")).load()));
-//        primaryStage.setTitle("Login Form");
-//        primaryStage.centerOnScreen();
-//        primaryStage.sizeToScene();
-//        primaryStage.show();
+        boolean adminExists = adminExists();
+        String url = adminExists ? "/view/LoginView.fxml": "/view/SignUpView.fxml";
+        primaryStage.setScene(new Scene(new FXMLLoader(getClass().getResource(url)).load()));
+        primaryStage.setTitle(adminExists? "Login":"Create Admin Account");
+        primaryStage.centerOnScreen();
+        primaryStage.sizeToScene();
+        primaryStage.show();
 
+    }
+
+    private boolean adminExists(){
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            return stm.executeQuery("SELECT * FROM Employee WHERE role='ADMIN'").next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void generateSchemaIfNotExist() {
