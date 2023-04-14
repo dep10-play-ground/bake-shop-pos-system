@@ -37,11 +37,11 @@ public class AppInitializer extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         generateSchemaIfNotExist();
-//        primaryStage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/LoginView.fxml")).load()));
-//        primaryStage.setTitle("Login Form");
-//        primaryStage.centerOnScreen();
-//        primaryStage.sizeToScene();
-//        primaryStage.show();
+        primaryStage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/LoginView.fxml")).load()));
+        primaryStage.setTitle("Login Form");
+        primaryStage.centerOnScreen();
+        primaryStage.sizeToScene();
+        primaryStage.show();
 
     }
 

@@ -25,7 +25,7 @@ public class LoginViewController {
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
         Stage stage = new Stage();
-        stage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/MainView.fxml")).load()));
+        stage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/MainScene.fxml")).load()));
         stage.centerOnScreen();
         stage.show();
     }
