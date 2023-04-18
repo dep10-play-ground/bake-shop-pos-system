@@ -10,6 +10,10 @@ public class ProductionController {
     public Button btnFilter;
     public TextField txtSearch;
     public DatePicker dtpEndDate;
+    public TextField txtReferenceNo;
+    public RadioButton rdbIn;
+    public ToggleGroup In_Out;
+    public RadioButton rdbOut;
     @FXML
     private Button btnRemoveItem;
 
