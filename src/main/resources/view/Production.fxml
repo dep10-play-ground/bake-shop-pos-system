@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -59,11 +60,29 @@
                                 <Button fx:id="btnRemoveItem" minWidth="106.0" mnemonicParsing="false" onAction="#btnRemoveItemOnAction" text="Remove" />
                             </children>
                         </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="244.0" spacing="10.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Starting Date :" />
+                        <DatePicker fx:id="dtpStartingDate" maxWidth="171.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="283.0" spacing="10.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="113.0" text="End Date :" />
+                        <DatePicker fx:id="dtpEndDate" maxWidth="171.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="244.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="btnFilter" minWidth="106.0" mnemonicParsing="false" onAction="#btnFilterOnAction" text="Filter" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
                 <Separator orientation="VERTICAL" prefHeight="200.0" />
                 <VBox maxHeight="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
+                  <TextField fx:id="txtSearch" alignment="CENTER" promptText="Search" />
                         <TableView fx:id="tblItemDetails" prefHeight="350.0" prefWidth="589.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn prefWidth="90.0" text="Date" />
