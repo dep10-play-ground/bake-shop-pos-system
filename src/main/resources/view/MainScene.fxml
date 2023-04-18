@@ -112,9 +112,9 @@
          <bottom>
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="DATE" textFill="#fcfcfc" />
-                  <Label text="TIME" textFill="#fcfcfc" />
-                  <Label text="USER" textFill="#fcfcfc" />
+                  <Label fx:id="lblDate" text="DATE" textFill="#fcfcfc" />
+                  <Label fx:id="lblTime" text="TIME" textFill="#fcfcfc" />
+                  <Label fx:id="lblCurrentUser" text="USER" textFill="#fcfcfc" />
                   <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogoutOnAction" text="LOGOUT">
                      <cursor>
                         <Cursor fx:constant="HAND" />

@@ -1,5 +1,9 @@
 package lk.ijse.dep10.application.controller;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +14,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class MainSceneController {
 
+    public Label lblDate;
+    public Label lblTime;
+    public Label lblCurrentUser;
     @FXML
     private Button btnLogout;
 
@@ -37,6 +49,18 @@ public class MainSceneController {
     private BorderPane mainPain;
 
     private Pane subScene;
+
+    public void initialize() {
+        lblTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
+        lblDate.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        KeyFrame time = new KeyFrame(Duration.seconds(1), event -> {
+            lblTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
+            lblDate.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        });
+        Timeline timeline = new Timeline(time);
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.playFromStart();
+    }
 
     @FXML
     void btnLogoutOnAction(ActionEvent event) throws IOException {
