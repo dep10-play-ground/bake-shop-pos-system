@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1074.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.SupplierSceneController">
+<AnchorPane prefHeight="400.0" prefWidth="1074.0" style="-fx-background-color: lightblue;" stylesheets="@../style/MainStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.SupplierSceneController">
    <children>
       <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -29,6 +29,12 @@
                            <children>
                               <Label alignment="CENTER_RIGHT" text="Company Name: " />
                               <TextField fx:id="txtCompanyName" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Address:" />
+                              <TextField fx:id="txtAddress" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
