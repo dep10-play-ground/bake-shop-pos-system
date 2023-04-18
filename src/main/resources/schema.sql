@@ -19,19 +19,19 @@ CREATE TABLE IF NOT EXISTS Item(
      item_name VARCHAR(100)NOT NULL ,
      unit_price DECIMAL(20) NOT NULL ,
      company_id VARCHAR(20)NOT NULL,
-     FOREIGN KEY (company_id) REFERENCES Company_Details(company_id)
+     constraint fk_companyId FOREIGN KEY (company_id) REFERENCES Company_Details(company_id)
 );
 
 
 CREATE  TABLE  IF NOT EXISTS Stock_Management(
      reference_number INT AUTO_INCREMENT PRIMARY KEY,
-     item_code VARCHAR(20) NOT NULL ,
+     item_code VARCHAR(20) NOT NULL,
      item_quantity INT(10) NOT NULL,
-     in_out ENUM('IN','OUT')NOT NULL,
+     in_out ENUM('IN','OUT') NOT NULL,
      date DATETIME NOT NULL,
      user VARCHAR(30) NOT NULL,
      unit_price DECIMAL(20) NOT NULL,
-     FOREIGN KEY (item_code) REFERENCES Item(item_code),
-     FOREIGN KEY (user) REFERENCES Employee(user_name),
-     FOREIGN KEY (unit_price) REFERENCES Item(unit_price)
+     constraint fk_itemCode FOREIGN KEY (item_code) REFERENCES Item(item_code),
+     constraint fk_user FOREIGN KEY (user) REFERENCES Employee(user_name),
+     constraint fk_unitPrice FOREIGN KEY (unit_price) REFERENCES Item(unit_price)
 );
