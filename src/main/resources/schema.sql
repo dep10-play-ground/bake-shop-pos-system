@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Item(
      item_code VARCHAR(20) PRIMARY KEY ,
      item_name VARCHAR(100)NOT NULL ,
      unit_price DECIMAL(20) NOT NULL ,
-     company_id VARCHAR(20),
+     company_id VARCHAR(20)NOT NULL,
      FOREIGN KEY (company_id) REFERENCES Company_Details(company_id)
 );
 
@@ -28,7 +28,7 @@ CREATE  TABLE  IF NOT EXISTS Stock_Management(
      reference_number INT AUTO_INCREMENT PRIMARY KEY,
      item_code VARCHAR(20) NOT NULL ,
      item_quantity INT(10) NOT NULL,
-     in_out ENUM('IN','OUT'),
+     in_out ENUM('IN','OUT')NOT NULL,
      date DATETIME NOT NULL,
      user VARCHAR(30) NOT NULL,
      unit_price DECIMAL(20) NOT NULL,
