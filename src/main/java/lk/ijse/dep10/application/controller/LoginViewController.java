@@ -35,7 +35,7 @@ public class LoginViewController {
 
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "SELECT * FROM Employee WHERE username=? AND password=?";
+            String sql = "SELECT * FROM Employee WHERE user_name=? AND password=?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2,password);

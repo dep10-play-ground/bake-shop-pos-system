@@ -32,6 +32,5 @@ CREATE  TABLE  IF NOT EXISTS Stock_Management(
      user VARCHAR(30) NOT NULL,
      unit_price DECIMAL(20) NOT NULL,
      constraint fk_itemCode FOREIGN KEY (item_code) REFERENCES Item(item_code),
-     constraint fk_user FOREIGN KEY (user) REFERENCES Employee(user_name),
-     constraint fk_unitPrice FOREIGN KEY (unit_price) REFERENCES Item(unit_price)
+     constraint fk_user FOREIGN KEY (user) REFERENCES Employee(user_name)
 );
