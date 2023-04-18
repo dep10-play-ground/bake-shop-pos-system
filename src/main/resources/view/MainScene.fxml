@@ -1,132 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="615.0" prefWidth="706.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.MainSceneController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.MainSceneController">
    <children>
-      <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox prefHeight="112.0" prefWidth="706.0" spacing="10.0" style="-fx-background-color: black;">
+      <BorderPane fx:id="mainPain" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="lblUser" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="112.0" minWidth="116.0" onMouseClicked="#lblUserOnMouseClicked" prefHeight="112.0" prefWidth="116.0" text="USER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label fx:id="lblUser" contentDisplay="TOP" onMouseClicked="#lblUserOnMouseClicked" text="USER" textFill="#fcfafa">
                      <graphic>
                         <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/user.jpg" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="lblStores" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="112.0" minWidth="116.0" onMouseClicked="#lblStoresOnMouseClicked" text="STORES" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label fx:id="lblStores" contentDisplay="TOP" onMouseClicked="#lblStoresOnMouseClicked" text="STORE" textFill="#fcfafa">
                      <graphic>
                         <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/stores.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="lblSupplier" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="112.0" minWidth="116.0" onMouseClicked="#lblSupplierOnMouseClicked" text="SUPPLIER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label fx:id="lblSupplier" contentDisplay="TOP" onMouseClicked="#lblSupplierOnMouseClicked" text="SUPPLIERS" textFill="#fcfafa">
                      <graphic>
                         <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/supplier.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="lblItem" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="112.0" minWidth="116.0" onMouseClicked="#lblItemOnMouseClicked" text="ITEM" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label fx:id="lblItems" contentDisplay="TOP" onMouseClicked="#lblItemsOnMouseClicked" text="ITEMS" textFill="#fcfafa">
                      <graphic>
                         <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/item.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="lblProduction" alignment="CENTER" contentDisplay="TOP" layoutX="320.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="112.0" minWidth="116.0" onMouseClicked="#lblProductionOnMouseClicked" prefHeight="119.0" prefWidth="90.0" text="PRODUCTION" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label fx:id="lblProduction" contentDisplay="TOP" onMouseClicked="#lblProductionOnMouseClicked" text="PRODUCTION" textFill="#fcfafa">
                      <graphic>
-                        <ImageView fitHeight="84.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/production.jpeg" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
                   </Label>
                </children>
             </HBox>
-            <AnchorPane fx:id="mainScene" prefHeight="451.0" prefWidth="706.0" style="-fx-background-color: lightblue;" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </AnchorPane>
-            <HBox alignment="TOP_CENTER" prefHeight="39.0" prefWidth="706.0" spacing="30.0">
+         </top>
+         <bottom>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="lblDate" alignment="CENTER" text="Date" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblTime" alignment="CENTER" text="Time" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblUserName" alignment="CENTER" text="User" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnLogOut" mnemonicParsing="false" onAction="#btnLogOutOnAction" prefHeight="38.0" prefWidth="87.0" text="LOG OUT">
+                  <Label text="DATE" textFill="#fcfcfc" />
+                  <Label text="TIME" textFill="#fcfcfc" />
+                  <Label text="USER" textFill="#fcfcfc" />
+                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogoutOnAction" text="LOGOUT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
             </HBox>
-         </children>
-      </VBox>
+         </bottom>
+      </BorderPane>
    </children>
 </AnchorPane>

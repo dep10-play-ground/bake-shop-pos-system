@@ -3,79 +3,68 @@ package lk.ijse.dep10.application.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class MainSceneController {
 
-    public AnchorPane root;
-    public Label lblUserName;
     @FXML
-        private Button btnLogOut;
+    private Button btnLogout;
 
-        @FXML
-        private Label lblDate;
+    @FXML
+    private Label lblItems;
 
-        @FXML
-        private Label lblItem;
+    @FXML
+    private Label lblProduction;
 
-        @FXML
-        private Label lblProduction;
+    @FXML
+    private Label lblStores;
 
-        @FXML
-        private Label lblStores;
+    @FXML
+    private Label lblSupplier;
 
-        @FXML
-        private Label lblSupplier;
+    @FXML
+    private Label lblUser;
 
-        @FXML
-        private Label lblTime;
+    @FXML
+    private BorderPane mainPain;
 
-        @FXML
-        private Label lblUser;
+    private Pane subScene;
 
-        @FXML
-        private AnchorPane mainScene;
-        Stage newStage;
+    @FXML
+    void btnLogoutOnAction(ActionEvent event) {
 
-        @FXML
-        void btnLogOutOnAction(ActionEvent event) {
-
-        }
-
-        @FXML
-        void lblItemOnMouseClicked(MouseEvent event) {
-
-        }
-
-        @FXML
-        void lblProductionOnMouseClicked(MouseEvent event) {
-
-        }
-
-        @FXML
-        void lblStoresOnMouseClicked(MouseEvent event) {
-
-        }
-
-        @FXML
-        void lblSupplierOnMouseClicked(MouseEvent event) throws IOException {
-        }
-
-        @FXML
-        void lblUserOnMouseClicked(MouseEvent event) {
-
-        }
     }
 
+    @FXML
+    void lblItemsOnMouseClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void lblProductionOnMouseClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void lblStoresOnMouseClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void lblSupplierOnMouseClicked(MouseEvent event) throws IOException {
+        subScene = new FXMLLoader().load(getClass().getResource("/view/SupplierScene.fxml"));
+        mainPain.setCenter(subScene);
+    }
+
+    @FXML
+    void lblUserOnMouseClicked(MouseEvent event) {
+
+    }
+
+}
