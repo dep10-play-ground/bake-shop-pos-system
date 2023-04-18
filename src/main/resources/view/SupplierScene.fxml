@@ -9,17 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="1045.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.SupplierSceneController">
    <children>
-      <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Label alignment="CENTER" text="Supplier Details" VBox.vgrow="ALWAYS">
-               <font>
-                  <Font name="System Bold Italic" size="29.0" />
-               </font>
-            </Label>
             <HBox spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
                   <VBox prefHeight="200.0" prefWidth="376.0" spacing="20.0">
@@ -27,40 +21,38 @@
                         <Button fx:id="btnAddNewSupplier" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddNewSupplierOnAction" prefHeight="33.0" prefWidth="376.0" text="Add New Supplier" />
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label alignment="CENTER_RIGHT" minWidth="169.0" text="Company ID: " />
-                              <TextField HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Company ID: " />
+                              <TextField fx:id="txtCompanyId" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label alignment="CENTER_RIGHT" text="Supplier company Name: " />
-                              <TextField HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" text="Company Name: " />
+                              <TextField fx:id="txtCompanyName" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label alignment="CENTER_RIGHT" minWidth="169.0" text="Supplier Name: " />
-                              <TextField HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Contact No: " />
+                              <TextField fx:id="txtContactNo" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label alignment="CENTER_RIGHT" minWidth="169.0" text="Contact No: " />
-                              <TextField HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Ref Name :" />
+                              <TextField fx:id="txtRefName" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label alignment="CENTER_RIGHT" minWidth="169.0" text="Supplier Contact No: " />
-                              <TextField HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Ref Contact :" />
+                              <TextField fx:id="txtRefContact" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <Button fx:id="btnSave" minWidth="66.0" mnemonicParsing="false" onAction="#btnSaveOnAction" text="Save" />
                               <Button fx:id="btnDelete" minWidth="66.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
-                              <Button fx:id="btnUpdate" minWidth="66.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
-                              <Button fx:id="btnPrevious" mnemonicParsing="false" onAction="#btnPreviousOnAction" text="&lt;&lt;previous" />
                            </children>
                         </HBox>
                      </children>
