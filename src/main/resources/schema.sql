@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS Employee (
     contact VARCHAR(11) NOT NULL
 );
 
-
 CREATE TABLE IF NOT EXISTS Company_Details(
     company_id VARCHAR(20) PRIMARY KEY ,
     companyname VARCHAR(100) NOT NULL ,
@@ -13,6 +12,7 @@ CREATE TABLE IF NOT EXISTS Company_Details(
     itembrought DECIMAL(20) NOT NULL ,
     contactno VARCHAR(11) NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS Item(
     itemcode VARCHAR(20) PRIMARY KEY ,
     unitprice DECIMAL(20) NOT NULL ,
