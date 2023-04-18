@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="615.0" prefWidth="706.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.MainSceneController">
+<AnchorPane fx:id="root" prefHeight="615.0" prefWidth="706.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.MainSceneController">
    <children>
       <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -112,7 +111,7 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblUser" alignment="CENTER" text="User" textFill="WHITE">
+                  <Label fx:id="lblUserName" alignment="CENTER" text="User" textFill="WHITE">
                      <font>
                         <Font size="26.0" />
                      </font>

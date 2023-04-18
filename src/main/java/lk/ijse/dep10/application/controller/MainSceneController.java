@@ -2,14 +2,26 @@ package lk.ijse.dep10.application.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
-    public class MainSceneController {
+import java.io.IOException;
+import java.net.URL;
 
-        @FXML
+public class MainSceneController {
+
+    public AnchorPane root;
+    public Label lblUserName;
+    @FXML
         private Button btnLogOut;
 
         @FXML
@@ -35,6 +47,7 @@ import javafx.scene.layout.AnchorPane;
 
         @FXML
         private AnchorPane mainScene;
+        Stage newStage;
 
         @FXML
         void btnLogOutOnAction(ActionEvent event) {
@@ -57,8 +70,7 @@ import javafx.scene.layout.AnchorPane;
         }
 
         @FXML
-        void lblSupplierOnMouseClicked(MouseEvent event) {
-
+        void lblSupplierOnMouseClicked(MouseEvent event) throws IOException {
         }
 
         @FXML
