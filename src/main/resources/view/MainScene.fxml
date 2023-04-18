@@ -12,9 +12,9 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.MainSceneController">
    <children>
-      <BorderPane fx:id="mainPain" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="mainPain" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/MainStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
                   <Label fx:id="lblUser" contentDisplay="TOP" onMouseClicked="#lblUserOnMouseClicked" text="USER" textFill="#fcfafa">
                      <graphic>

@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS Employee (
      contact VARCHAR(11) NOT NULL
 );
 
-
 CREATE TABLE IF NOT EXISTS Company_Details(
      company_id VARCHAR(10) PRIMARY KEY ,
      company_name VARCHAR(100) NOT NULL ,
