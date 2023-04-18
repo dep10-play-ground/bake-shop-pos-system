@@ -1,41 +1,38 @@
 CREATE TABLE IF NOT EXISTS Employee (
-     username VARCHAR(30) PRIMARY KEY ,
+     user_name VARCHAR(30) PRIMARY KEY ,
      password VARCHAR(30) NOT NULL ,
      role ENUM('USER','ADMIN') NOT NULL ,
-    contact VARCHAR(11) NOT NULL
+     contact VARCHAR(11) NOT NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS Company_Details(
-    company_id VARCHAR(20) PRIMARY KEY ,
-    companyname VARCHAR(100) NOT NULL ,
-    refname VARCHAR(100) NOT NULL,
-    itembrought DECIMAL(20) NOT NULL ,
-    contactno VARCHAR(11) NOT NULL
+     company_id VARCHAR(10) PRIMARY KEY ,
+     company_name VARCHAR(100) NOT NULL ,
+     company_contact VARCHAR(11) NOT NULL ,
+     company_address VARCHAR(300) NOT NULL ,
+     rep_name VARCHAR(100) NOT NULL,
+     rep_contact   VARCHAR(11) NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS Item(
-    itemcode VARCHAR(20) PRIMARY KEY ,
-    unitprice DECIMAL(20) NOT NULL ,
-    quantity INT(20) NOT NULL ,
-    itemName VARCHAR(100)NOT NULL ,
-    date DATE NOT NULL ,
-    company_id VARCHAR(20),
-    FOREIGN KEY (company_id) REFERENCES Company_Details(company_id)
-);
-
-
-CREATE  TABLE  IF NOT EXISTS Production(
-    itemcode VARCHAR(20) PRIMARY KEY ,
-    company_id VARCHAR(20),
-    item_out_count INT(10),
-    out_date DATE NOT NULL,
-    FOREIGN KEY (itemcode) REFERENCES Item(itemcode),
-    FOREIGN KEY (company_id)REFERENCES Company_Details(company_id)
-);
-
-CREATE TABLE IF NOT EXISTS Item_Stork (
-     itemcode VARCHAR(20) PRIMARY KEY ,
+     item_code VARCHAR(20) PRIMARY KEY ,
+     item_name VARCHAR(100)NOT NULL ,
+     unit_price DECIMAL(20) NOT NULL ,
      company_id VARCHAR(20),
-     FOREIGN KEY (itemcode) REFERENCES Item(itemcode),
-     FOREIGN KEY (company_id)REFERENCES Company_Details(company_id)
+     FOREIGN KEY (company_id) REFERENCES Company_Details(company_id)
+);
+
+
+CREATE  TABLE  IF NOT EXISTS Stock_Management(
+     reference_number INT AUTO_INCREMENT PRIMARY KEY,
+     item_code VARCHAR(20) NOT NULL ,
+     item_quantity INT(10) NOT NULL,
+     in_out ENUM('IN','OUT'),
+     date DATETIME NOT NULL,
+     user VARCHAR(30) NOT NULL,
+     unit_price DECIMAL(20) NOT NULL,
+     FOREIGN KEY (item_code) REFERENCES Item(item_code),
+     FOREIGN KEY (user) REFERENCES Employee(user_name),
+     FOREIGN KEY (unit_price) REFERENCES Item(unit_price)
 );
