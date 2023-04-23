@@ -11,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lk.ijse.dep10.application.db.DBConnection;
+import lk.ijse.dep10.application.util.PasswordEncoder;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -43,8 +44,8 @@ public class SignUpViewController {
                     "VALUES (?, ?, 'ADMIN', ?)";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, txtUserName.getText());
-            stm.setString(2, txtPassword.getText());
-            stm.setString(3, txtPassword.getText());
+            stm.setString(2, PasswordEncoder.encode(txtPassword.getText()));
+            stm.setString(3, txtContact.getText());
             stm.executeUpdate();
 
             URL loginView = getClass().getResource("/view/LoginView.fxml");
@@ -68,10 +69,10 @@ public class SignUpViewController {
 
         String username = txtUserName.getText();
         String contact = txtContact.getText();
-        String password = txtPassword.getText();
+        String password = PasswordEncoder.encode(txtPassword.getText());
         String confirmPassword = txtConfirmPassword.getText();
 
-        if (password.isEmpty() || !password.equals(confirmPassword)) {
+        if (password.isEmpty() || !PasswordEncoder.matches(confirmPassword,password)) {
             txtConfirmPassword.requestFocus();
             txtConfirmPassword.selectAll();
             txtConfirmPassword.getStyleClass().add("invalid");

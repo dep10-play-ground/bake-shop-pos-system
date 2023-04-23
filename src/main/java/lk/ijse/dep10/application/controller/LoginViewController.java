@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lk.ijse.dep10.application.db.DBConnection;
+import lk.ijse.dep10.application.util.PasswordEncoder;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,7 +39,7 @@ public class LoginViewController {
             String sql = "SELECT * FROM Employee WHERE user_name=? AND password=?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
-            stm.setString(2,password);
+            stm.setString(2, PasswordEncoder.encode(password));
             ResultSet rst = stm.executeQuery();
 
             if (!rst.next()){
@@ -50,7 +51,7 @@ public class LoginViewController {
                 URL mainViewUrl = getClass().getResource("/view/MainScene.fxml");
                 Scene mainViewScene = new Scene(FXMLLoader.load(mainViewUrl));
                 Stage stage = (Stage) btnLogin.getScene().getWindow();
-                stage.setTitle("POS System");
+                stage.setTitle("Inventory System");
                 stage.setScene(mainViewScene);
                 stage.setMaximized(true);
                 stage.centerOnScreen();

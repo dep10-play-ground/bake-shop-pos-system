@@ -69,7 +69,7 @@ public class AppInitializer extends Application {
             }
 
             boolean tableExists = tableNameSet.
-                    containsAll(Set.of("Employee"));
+                    containsAll(Set.of("Employee","Item","Company_Details","Stock_Management")); //bug 1-------------------------------------
 
             if (!tableExists){
                 System.out.println("Schema is about to auto generate");
@@ -78,7 +78,8 @@ public class AppInitializer extends Application {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }private String readSchemaScript(){
+    }
+    private String readSchemaScript(){
         InputStream is = getClass().getResourceAsStream("/schema.sql");
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is))){
             String line;
