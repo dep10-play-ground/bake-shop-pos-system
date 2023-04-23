@@ -48,6 +48,9 @@ public class LoginViewController {
                 txtUserName.requestFocus();
                 txtUserName.selectAll();
             }else{
+                String role = rst.getString("role");
+                System.setProperty("currentLoggedUser", username);
+                System.setProperty("currentLoggedUserRole", role);
                 URL mainViewUrl = getClass().getResource("/view/MainScene.fxml");
                 Scene mainViewScene = new Scene(FXMLLoader.load(mainViewUrl));
                 Stage stage = (Stage) btnLogin.getScene().getWindow();

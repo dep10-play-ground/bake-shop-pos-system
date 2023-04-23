@@ -19,6 +19,8 @@ import java.sql.PreparedStatement;
 
 public class SignUpViewController {
 
+    public TextField txtFullName;
+    public TextField txtAddress;
     @FXML
     private Button btnCreate;
 
@@ -40,13 +42,24 @@ public class SignUpViewController {
 
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "INSERT INTO Employee (user_name, password, role, contact) " +
-                    "VALUES (?, ?, 'ADMIN', ?)";
+            String sql = "INSERT INTO Employee (user_name, password, role,full_name,address) " +
+                    "VALUES (?, ?, 'ADMIN',?,?)";
+            connection.setAutoCommit(false);
+
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, txtUserName.getText());
             stm.setString(2, PasswordEncoder.encode(txtPassword.getText()));
-            stm.setString(3, txtContact.getText());
+            stm.setString(3,txtFullName.getText());
+            stm.setString(4,txtAddress.getText());
             stm.executeUpdate();
+            String sql2 = "INSERT INTO Employee_contact (user_name, contact) " +
+                    "VALUES (?,?)";
+            PreparedStatement stm2 = connection.prepareStatement(sql2);
+            stm2.setString(1,txtUserName.getText());
+            stm2.setString(2,txtContact.getText());
+            stm2.executeUpdate();
+
+            connection.commit();
 
             URL loginView = getClass().getResource("/view/LoginView.fxml");
             var loginScene = new Scene(FXMLLoader.load(loginView));

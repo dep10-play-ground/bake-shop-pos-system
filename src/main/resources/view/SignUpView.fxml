@@ -9,36 +9,48 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="234.0" prefWidth="366.0" stylesheets="@../style/Styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.SignUpViewController">
+<AnchorPane prefHeight="317.0" prefWidth="544.0" stylesheets="@../style/Styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep10.application.controller.SignUpViewController">
    <children>
-      <Label layoutX="69.0" layoutY="14.0" text="CREATE ADMIN ACCOUNT">
+      <Label alignment="CENTER" layoutX="69.0" layoutY="14.0" text="CREATE ADMIN ACCOUNT" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
       <VBox layoutX="39.0" layoutY="62.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Username: " />
+                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Username : " />
                   <TextField fx:id="txtUserName" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Contact: " />
+                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Full Name : " />
+                  <TextField fx:id="txtFullName" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Address : " />
+                  <TextField fx:id="txtAddress" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Contact : " />
                   <TextField fx:id="txtContact" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Password: " />
+                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Password : " />
                   <PasswordField fx:id="txtPassword" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Confirm Password: " />
+                  <Label alignment="CENTER_RIGHT" prefWidth="140.0" text="Confirm Password : " />
                   <PasswordField fx:id="txtConfirmPassword" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>

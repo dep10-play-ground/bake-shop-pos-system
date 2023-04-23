@@ -60,6 +60,12 @@ public class MainSceneController {
         Timeline timeline = new Timeline(time);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.playFromStart();
+
+        lblCurrentUser.setText(System.getProperty("currentLoggedUser"));
+        String currentLoggedUserRole = System.getProperty("currentLoggedUserRole");
+        if (currentLoggedUserRole.equals("USER")){
+            lblUser.setVisible(false);
+        }else lblUser.setVisible(true);
     }
 
     @FXML
@@ -94,8 +100,16 @@ public class MainSceneController {
     }
 
     @FXML
-    void lblUserOnMouseClicked(MouseEvent event) {
+    void lblUserOnMouseClicked(MouseEvent event) throws IOException {
+        subScene = new FXMLLoader().load(getClass().getResource("/view/NewUserView.fxml"));
+        mainPain.setCenter(subScene);
 
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(FXMLLoader.load(
+//                getClass().getResource("/view/NewUserView.fxml"))));
+//        stage.show();
+//        stage.centerOnScreen();
+//        stage.setResizable(false);
     }
 
 }
