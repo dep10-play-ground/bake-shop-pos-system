@@ -186,14 +186,10 @@ public class NewUserViewController {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
-            String sql = "SELECT role FROM Employee WHERE user_name='%s'";
-            sql=String.format(sql, currentSelectedUser.getUserName());
+            String sql = "SELECT * FROM Employee WHERE user_name='%s' HAVING role='%s'";
+            sql=String.format(sql, currentSelectedUser.getUserName(),"ADMIN");
             ResultSet rst = statement.executeQuery(sql);
-            String role = "";
-            if (rst.next()) {
-                 role = rst.getString(1);
-            }
-            if (role.equals("ADMIN")){
+            if (rst.next()){
                 new Alert(Alert.AlertType.INFORMATION,"Admin can't be Deleted").show();
                 return;
             }
