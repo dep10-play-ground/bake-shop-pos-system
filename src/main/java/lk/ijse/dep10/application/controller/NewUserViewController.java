@@ -224,7 +224,6 @@ public class NewUserViewController {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     private boolean isDataValid() {

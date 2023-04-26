@@ -69,7 +69,8 @@ public class AppInitializer extends Application {
             }
 
             boolean tableExists = tableNameSet.
-                    containsAll(Set.of("Employee","Item","Company_Details","Stock_Management"));
+                    containsAll(Set.of("Employee","Employee_contact","company","company_contact",
+                            "company_order","supplied_item","item_batch","item_details","production_item","production_item_details"));
 
             if (!tableExists){
                 System.out.println("Schema is about to auto generate");
