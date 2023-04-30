@@ -88,7 +88,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblPurchase" contentDisplay="TOP" onMouseClicked="#lblProductionOnMouseClicked" text="PURCHASE" textFill="#fcfafa">
+                  <Label fx:id="lblPurchase" contentDisplay="TOP" onMouseClicked="#lblPurchaseOnMouseClicked" text="PURCHASE" textFill="#fcfafa">
                      <graphic>
                         <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                            <image>

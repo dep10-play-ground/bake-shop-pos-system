@@ -113,4 +113,8 @@ public class MainSceneController {
 //        stage.setResizable(false);
     }
 
+    public void lblPurchaseOnMouseClicked(MouseEvent mouseEvent) throws IOException {
+        subScene = new FXMLLoader().load(getClass().getResource("/view/PurchaseView.fxml"));
+        mainPain.setCenter(subScene);
+    }
 }
