@@ -27,6 +27,7 @@ public class MainSceneController {
     public Label lblDate;
     public Label lblTime;
     public Label lblCurrentUser;
+    public Label lblPurchase;
     @FXML
     private Button btnLogout;
 
