@@ -1,14 +1,19 @@
 package lk.ijse.dep10.application.controller;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.model.Company;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class SupplierSceneController {
 
@@ -54,11 +59,11 @@ public class SupplierSceneController {
     public void initialize(){
         tblDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("companyId"));
         tblDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("companyName"));
-        tblDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("contactContact"));
-        tblDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("companyAddress"));
+        tblDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("companyAddress"));
+        tblDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("contactContact"));
         tblDetails.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("email"));
-        tblDetails.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("repName"));
 
+        loadAllCompanies();
 
         btnRemove.setDisable(true);
         lstContact.getSelectionModel().selectedItemProperty().addListener((ov, previous, current) -> {
@@ -70,18 +75,39 @@ public class SupplierSceneController {
             btnDelete.setDisable(current == null);
         });
     }
+    private void loadAllCompanies() {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            ResultSet rst = stm.executeQuery("SELECT * FROM company");
+            ObservableList<Company> companyList = tblDetails.getItems();
+
+//            while (rst.next()) {
+//                String companyId = rst.getString("company_id");
+//                String companyName = rst.getString("company_name");
+//                String companyAddress = rst.getString("company_address");
+//                ArrayList<String> companyContact = rst.getString("company_contact");
+//                String companyEmail = rst.getString("company_email");
+//                companyList.add(new Company(companyId,companyName,companyAddress,companyContact,companyEmail));
+//            }
+            Platform.runLater(btnAddNewSupplier::fire);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Failed to load companies details, try again!").show();
+            Platform.exit();
+        }
+    }
 
     @FXML
     void btnAddNewSupplierOnAction(ActionEvent event) {
         ObservableList<Company> customerList = tblDetails.getItems();
         var newId = customerList.isEmpty()? "1":
                 customerList.get(customerList.size() - 1).getCompanyId() + 1;
-        txtCompanyId.setText(newId + "");
+        txtCompanyId.setText("C"+newId + "");
         txtCompanyName.clear();
         txtAddress.clear();
         txtContactNo.clear();
         txtEmail.clear();
-        txtRefName.clear();
         lstContact.getItems().clear();
         lstContact.getSelectionModel().clearSelection();
         tblDetails.getSelectionModel().clearSelection();
@@ -121,7 +147,41 @@ public class SupplierSceneController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        if (!isDataValid()) return;
 
+    }
+    private boolean isDataValid(){
+        boolean dataValid = true;
+        txtCompanyName.getStyleClass().remove("invalid");
+        txtAddress.getStyleClass().remove("invalid");
+        lstContact.getStyleClass().remove("invalid");
+        txtEmail.getStyleClass().remove("invalid");
+
+        String name = txtCompanyName.getText();
+        String address = txtAddress.getText();
+        String email=txtEmail.getText();
+
+        if (address.strip().length() < 3){
+            txtAddress.requestFocus();
+            txtAddress.selectAll();
+            txtAddress.getStyleClass().add("invalid");
+            dataValid = false;
+        }
+
+        if (!name.matches("[A-Za-z ]+")){
+            txtCompanyName.requestFocus();
+            txtCompanyName.selectAll();
+            txtCompanyName.getStyleClass().add("invalid");
+            dataValid = false;
+        }
+        if (!email.matches("[^(.+)@(\\\\S+)$]+")){
+            txtCompanyName.requestFocus();
+            txtCompanyName.selectAll();
+            txtCompanyName.getStyleClass().add("invalid");
+            dataValid = false;
+        }
+
+        return dataValid;
     }
 
 }
