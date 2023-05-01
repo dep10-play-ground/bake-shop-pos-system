@@ -15,11 +15,11 @@ public class Item implements Serializable {
     public Item() {
     }
 
-    public Item(String itemCode, String itemName, int batchNo, BigDecimal unitPrice, int qty) {
+
+    public Item(String itemCode, String itemName, int batchNo, int qty) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.batchNo = batchNo;
-        this.unitPrice = unitPrice;
         this.qty = qty;
     }
 
