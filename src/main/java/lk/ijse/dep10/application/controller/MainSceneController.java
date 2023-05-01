@@ -101,7 +101,7 @@ public class MainSceneController {
 
     @FXML
     void lblUserOnMouseClicked(MouseEvent event) throws IOException {
-        subScene = new FXMLLoader().load(getClass().getResource("/view/NewUserView.fxml"));
+        subScene = new FXMLLoader().load(getClass().getResource("/view/UserScene.fxml"));
         mainPain.setCenter(subScene);
 
 //        Stage stage = new Stage();
