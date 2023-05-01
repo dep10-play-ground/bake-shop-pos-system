@@ -76,7 +76,7 @@
                      </padding>
                         </VBox>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <VBox prefHeight="380.0" prefWidth="745.0">
+                  <VBox prefHeight="380.0" prefWidth="745.0" HBox.hgrow="ALWAYS">
                      <children>
                         <TableView fx:id="tblOrderBill" prefHeight="300.0" prefWidth="745.0">
                           <columns>
