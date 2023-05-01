@@ -237,6 +237,7 @@ public class NewUserViewController {
         String password = PasswordEncoder.encode(txtPassword.getText());
         String confirmPassword = txtConfirmPassword.getText();
 
+
         if (password.isEmpty() || !PasswordEncoder.matches(confirmPassword,password)) {
             txtConfirmPassword.requestFocus();
             txtConfirmPassword.selectAll();
