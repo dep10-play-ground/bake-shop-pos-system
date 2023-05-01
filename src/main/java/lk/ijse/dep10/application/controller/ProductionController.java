@@ -1,56 +1,98 @@
 package lk.ijse.dep10.application.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import lk.ijse.dep10.application.db.DBConnection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ProductionController {
 
-    public DatePicker dtpStartingDate;
-    public Button btnFilter;
-    public TextField txtSearch;
-    public DatePicker dtpEndDate;
-    public TextField txtReferenceNo;
-    public RadioButton rdbIn;
-    public ToggleGroup In_Out;
-    public RadioButton rdbOut;
     @FXML
-    private Button btnRemoveItem;
+    private Button btnAdd;
 
     @FXML
-    private Button btnSave;
+    private Button btnAddNewItem;
 
     @FXML
-    private ComboBox<?> cmbCompanyName;
+    private Button btnCancel;
 
     @FXML
-    private ComboBox<?> cmbItemName;
+    private Button btnCancelOrder;
+
+    @FXML
+    private Button btnPlaceOrder;
+
+    @FXML
+    private ComboBox<?> cmbBatchNo;
+
+    @FXML
+    private ListView<?> lstItemList;
 
     @FXML
     private TableView<?> tblItemDetails;
 
     @FXML
-    private TextField txtCompanyCode;
+    private TextField txtItemID;
 
     @FXML
-    private TextField txtDate;
+    private TextField txtOrderID;
 
     @FXML
-    private TextField txtItemCode;
+    private TextField txtQty;
+
+    public void initialize(){
+        Connection connection = DBConnection.getInstance().getConnection();
+        try {
+            Statement stm = connection.createStatement();
+            String sql = "SELECT order_id FROM production_item ORDER BY order_id DESC LIMIT 1";
+            ResultSet rst = stm.executeQuery(sql);
+
+            if (rst.next()){
+                int lastOrderNumber = rst.getInt(1);
+                String newOrderID = String.format("ODR-%03d", lastOrderNumber);
+                txtOrderID.setText(newOrderID);
+            }else {
+                txtOrderID.setText("ODR-001");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
-    private TextField txtQuantity;
-
-    @FXML
-    void btnRemoveItemOnAction(ActionEvent event) {
+    void btnAddNewItemOnAction(ActionEvent event) {
 
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnAddOnAction(ActionEvent event) {
 
     }
 
-    public void btnFilterOnAction(ActionEvent actionEvent) {
+    @FXML
+    void btnCancelOnAction(ActionEvent event) {
+
     }
+
+    @FXML
+    void btnCancelOrderOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnPlaceOrderOnAction(ActionEvent event) {
+
+    }
+
 }
