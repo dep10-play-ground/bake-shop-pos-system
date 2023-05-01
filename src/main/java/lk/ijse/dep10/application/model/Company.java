@@ -1,25 +1,26 @@
 package lk.ijse.dep10.application.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Company implements Serializable {
     private String companyId;
     private String companyName;
-    private String companyContact;
+    private ArrayList<String> contactContact = new ArrayList<>();
     private String companyAddress;
+    private String email;
     private String repName;
-    private String repContact;
 
-    public Company() {
-    }
-
-    public Company(String companyId, String companyName, String companyContact, String companyAddress, String repName, String repContact) {
+    public Company(String companyId, String companyName, ArrayList<String> contactContact, String companyAddress, String email, String repName) {
         this.companyId = companyId;
         this.companyName = companyName;
-        this.companyContact = companyContact;
+        this.contactContact = contactContact;
         this.companyAddress = companyAddress;
+        this.email = email;
         this.repName = repName;
-        this.repContact = repContact;
+    }
+
+    public Company() {
     }
 
     public String getCompanyId() {
@@ -38,12 +39,12 @@ public class Company implements Serializable {
         this.companyName = companyName;
     }
 
-    public String getCompanyContact() {
-        return companyContact;
+    public ArrayList<String> getContactContact() {
+        return contactContact;
     }
 
-    public void setCompanyContact(String companyContact) {
-        this.companyContact = companyContact;
+    public void setContactContact(ArrayList<String> contactContact) {
+        this.contactContact = contactContact;
     }
 
     public String getCompanyAddress() {
@@ -54,19 +55,19 @@ public class Company implements Serializable {
         this.companyAddress = companyAddress;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getRepName() {
         return repName;
     }
 
     public void setRepName(String repName) {
         this.repName = repName;
-    }
-
-    public String getRepContact() {
-        return repContact;
-    }
-
-    public void setRepContact(String repContact) {
-        this.repContact = repContact;
     }
 }
