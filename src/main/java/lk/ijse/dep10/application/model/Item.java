@@ -16,11 +16,11 @@ public class Item implements Serializable {
     public Item() {
     }
 
+
     public Item(String itemCode, String itemName, int batchNo, BigDecimal unitPrice, int qty, BigDecimal price) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.batchNo = batchNo;
-        this.unitPrice = unitPrice;
         this.qty = qty;
         this.price = price;
     }
@@ -30,6 +30,13 @@ public class Item implements Serializable {
         this.itemName = itemName;
         this.batchNo = batchNo;
         this.unitPrice = unitPrice;
+    }
+
+    public Item(String itemCode, String itemName, int batchNo, int qty) {
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.batchNo = batchNo;
+        this.qty = qty;
     }
 
     public Item(String itemCode, String itemName, int batchNo, String companyID, String companyName, BigDecimal unitPrice, int qty) {

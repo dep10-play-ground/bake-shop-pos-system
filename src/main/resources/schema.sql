@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS company_order
 
 CREATE TABLE IF NOT EXISTS item_details
 (
+
     item_code  VARCHAR(10) NOT NULL,
     item_name  VARCHAR(50) NOT NULL,
     company_id INT NOT NULL,
