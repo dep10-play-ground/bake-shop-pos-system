@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS company_order
 
 CREATE TABLE IF NOT EXISTS item_details
 (
-    item_code  INT NOT NULL AUTO_INCREMENT,
+    item_code  VARCHAR(25) NOT NULL,
     item_name  VARCHAR(50) NOT NULL,
     company_id INT NOT NULL,
     CONSTRAINT pk_item_details PRIMARY KEY (item_code),
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS item_details
 /*Item store Related*/
 CREATE TABLE IF NOT EXISTS item_batch
 (
-    item_code  INT NOT NULL,
+    item_code  VARCHAR(25) NOT NULL,
     batch_no   INT NOT NULL,
     quantity   INT NOT NULL,
     unit_price DECIMAL(8, 2) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS item_batch
 CREATE TABLE IF NOT EXISTS supplied_item
 (
     bill_id   INT NOT NULL,
-    item_code INT NOT NULL,
+    item_code VARCHAR(25) NOT NULL,
     batch_no  INT NOT NULL,
     quantity  INT NOT NULL,
     CONSTRAINT pk_supplied_item PRIMARY KEY (bill_id ,item_code , batch_no),
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS production_item
 CREATE TABLE IF NOT EXISTS production_item_details
 (
     order_id  INT NOT NULL,
-    item_code INT NOT NULL,
+    item_code VARCHAR(25) NOT NULL,
     batch_no  INT NOT NULL,
     quantity  INT NOT NULL,
     CONSTRAINT pk_item_details PRIMARY KEY (order_id, item_code,batch_no),

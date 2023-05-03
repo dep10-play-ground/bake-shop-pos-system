@@ -40,6 +40,15 @@ public class Item implements Serializable {
         this.qty = qty;
     }
 
+    public Item(String itemCode, String itemName, int batchNo, String companyName, BigDecimal unitPrice, int qty) {
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.batchNo = batchNo;
+        this.companyName = companyName;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+    }
+
     public String getItemCode() {
         return itemCode;
     }
