@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.util.PasswordEncoder;
+import lk.ijse.dep10.application.util.UserRole;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,9 +49,9 @@ public class LoginViewController {
                 txtUserName.requestFocus();
                 txtUserName.selectAll();
             }else{
-                String role = rst.getString("role");
+                UserRole role = UserRole.valueOf(rst.getString("role"));
                 System.setProperty("currentLoggedUser", username);
-                System.setProperty("currentLoggedUserRole", role);
+                System.setProperty("currentLoggedUserRole", String.valueOf(role));
                 URL mainViewUrl = getClass().getResource("/view/MainScene.fxml");
                 Scene mainViewScene = new Scene(FXMLLoader.load(mainViewUrl));
                 Stage stage = (Stage) btnLogin.getScene().getWindow();

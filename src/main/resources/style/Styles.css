@@ -20,6 +20,7 @@
 
 .invalid {
     -fx-border-color: red !important;
+    -fx-text-fill: red;
 }
 
 .btn-menu {
@@ -32,4 +33,35 @@
 
 .btn-menu:hover {
     -fx-background-color: rgba(211, 211, 211, 0.8);
+    -fx-cursor: pointer;
+}
+#btnSave, #btnAdd{
+    -fx-background-color: #0067a9;
+    -fx-text-fill: white;
+
+}
+
+#btnSave:hover, #btnAdd:hover{
+    -fx-background-color: rgba(1, 117, 190, 0.8);
+    -fx-cursor: pointer;
+
+}
+#btnDelete, #btnRemove {
+    -fx-background-color: #c00000;
+    -fx-text-fill: white;
+
+}
+
+#btnDelete:hover, #btnRemove:hover {
+    -fx-background-color: rgba(143, 3, 3, 0.8);
+    -fx-cursor: pointer;
+}
+#btnAddNewUser {
+    -fx-background-color: #02a602;
+    -fx-text-fill: white;
+}
+
+#btnAddNewUser:hover {
+    -fx-background-color: rgba(2, 157, 2, 0.80);
+    -fx-cursor: pointer;
 }
