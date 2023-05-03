@@ -1,6 +1,7 @@
 package lk.ijse.dep10.application.controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,19 +81,26 @@ public class ProductionController {
             Connection connection1 = DBConnection.getInstance().getConnection();
             try {
                 Statement stm = connection1.createStatement();
-                String sql = "SELECT item_code,item_name FROM item_details WHERE item_code LIKE '%s' OR item_name LIKE '%s'";
-                sql = String.format(sql, "%" + current + "%","%" + current + "%");
+                String sql = "SELECT item_code,item_name FROM item_details WHERE item_code LIKE '%1$s' OR item_name LIKE '%1$s'";
+                sql = String.format(sql, "%" + current + "%");
                 ResultSet rst = stm.executeQuery(sql);
 
                 ArrayList<String> itemList = new ArrayList<>();
+
                 while (rst.next()){
                     String itemCode = rst.getString(1);
                     String itemName = rst.getString(2);
                     itemList.add(itemCode + " - " + itemName);
                 }
-                lstItemList.getItems().clear();
-                lstItemList.getItems().addAll(itemList);
+                Platform.runLater(()->{
+                    lstItemList.setItems(FXCollections.observableArrayList(itemList));
+                });
+
+//                lstItemList.getItems().clear();
+//                    lstItemList.getItems().addAll(itemList);
+
             } catch (SQLException e) {
+
                 throw new RuntimeException(e);
             }
         });
@@ -104,7 +112,6 @@ public class ProductionController {
                 return;
             }
 
-            txtItemID.setText(current);
             String itemID = current.substring(0, 5);
 
             Connection connection2 = DBConnection.getInstance().getConnection();
@@ -116,9 +123,12 @@ public class ProductionController {
                 while (rst.next()){
                     String batchNo = rst.getString(1);
                     batchNoList.add(batchNo);
+                    System.out.println(batchNo);
                 }
                 cmbBatchNo.getItems().clear();
                 cmbBatchNo.getItems().addAll(batchNoList);
+
+                txtItemID.setText(current);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -163,7 +173,6 @@ public class ProductionController {
 
         Connection connection = DBConnection.getInstance().getConnection();
 
-//            connection.setAutoCommit(false);
             String itemID = txtItemID.getText().substring(0, 5);
             int batchNo = Integer.parseInt(cmbBatchNo.getSelectionModel().getSelectedItem());
             int qty = Integer.parseInt(txtQty.getText());
@@ -182,6 +191,7 @@ public class ProductionController {
         boolean dataValid = true;
         if (txtQty.getText().isEmpty() || !txtQty.getText().matches("\\d")){
             dataValid = false;
+            
         }
 
         String itemCode = txtItemID.getText().substring(0, 5);

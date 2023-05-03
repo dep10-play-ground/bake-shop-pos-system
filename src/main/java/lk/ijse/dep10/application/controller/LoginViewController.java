@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.util.PasswordEncoder;
@@ -20,6 +22,7 @@ import java.sql.SQLException;
 
 public class LoginViewController {
 
+
     @FXML
     private Button btnLogin;
 
@@ -31,6 +34,7 @@ public class LoginViewController {
 
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException, SQLException {
+
         String username = txtUserName.getText();
         String password = txtPassword.getText();
 
@@ -65,7 +69,6 @@ public class LoginViewController {
 
     }
 
-
-    }
+}
 
 
