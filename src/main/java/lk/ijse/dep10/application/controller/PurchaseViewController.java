@@ -1,6 +1,7 @@
 package lk.ijse.dep10.application.controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,7 +73,7 @@ public class PurchaseViewController {
 
         //Sort company list by company name
         txtCompanyId.textProperty().addListener((ov, previous, current) -> {
-            if (current.isEmpty()) return;
+            if (current  == null) return;
             lstItems.getItems().clear();
             Connection connection = DBConnection.getInstance().getConnection();
             try {
@@ -81,11 +82,13 @@ public class PurchaseViewController {
                 sql = String.format(sql, "%" + current + "%");
                 ResultSet rst = stm.executeQuery(sql);
 
-                ObservableList<String> companyList = lstCompanies.getItems();
-                companyList.clear();
+                ObservableList<String> companyList = FXCollections.observableArrayList();
                 while (rst.next()) {
                     companyList.add(rst.getInt(1) + "-" + rst.getString(2));
                 }
+                Platform.runLater(()->{
+                    lstCompanies.setItems(companyList);
+                });
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -126,6 +129,7 @@ public class PurchaseViewController {
 
         //Sort Item list by item_code and item_name for selected company
         txtItemId.textProperty().addListener((ov, previous, current) -> {
+            if (current == null) return;
             Connection connection = DBConnection.getInstance().getConnection();
 
             try {
@@ -134,11 +138,14 @@ public class PurchaseViewController {
                 sql = String.format(sql, "%" + current + "%", Integer.parseInt(txtCompanyId.getText().split("-")[0]));
                 ResultSet rst = stm.executeQuery(sql);
 
-                ObservableList<String> items = lstItems.getItems();
-                items.clear();
+//                ObservableList<String> items = lstItems.getItems();
+                ObservableList<String> items = FXCollections.observableArrayList();
                 while (rst.next()) {
                     items.add(rst.getString(1) + "-" + rst.getString(2));
                 }
+                Platform.runLater(()->{
+                    lstItems.setItems(items);
+                });
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -224,6 +231,7 @@ public class PurchaseViewController {
     }
 
     public void btnAddCompanyOnAction(ActionEvent actionEvent) {
+        //Need to implement this Scene
     }
 
     @FXML
