@@ -92,6 +92,8 @@ public class MainSceneController {
 
     @FXML
     void lblStoresOnMouseClicked(MouseEvent event) throws IOException {
+        subScene=new FXMLLoader().load(getClass().getResource("/view/StoresMainView.fxml"));
+        mainPain.setCenter(subScene);
     }
 
     @FXML
