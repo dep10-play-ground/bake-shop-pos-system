@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS production_item_details
 (
     order_id  INT NOT NULL,
     item_code VARCHAR(10) NOT NULL,
+
     batch_no  INT NOT NULL,
     quantity  INT NOT NULL,
     CONSTRAINT pk_item_details PRIMARY KEY (order_id, item_code,batch_no),
