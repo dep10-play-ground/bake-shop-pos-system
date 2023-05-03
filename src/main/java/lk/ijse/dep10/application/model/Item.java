@@ -11,16 +11,18 @@ public class Item implements Serializable {
     private String companyName;
     private BigDecimal unitPrice;
     private int qty;
+    private BigDecimal price;
 
     public Item() {
     }
 
-    public Item(String itemCode, String itemName, int batchNo, BigDecimal unitPrice, int qty) {
+    public Item(String itemCode, String itemName, int batchNo, BigDecimal unitPrice, int qty, BigDecimal price) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.batchNo = batchNo;
         this.unitPrice = unitPrice;
         this.qty = qty;
+        this.price = price;
     }
 
     public Item(String itemCode, String itemName, int batchNo, BigDecimal unitPrice) {
@@ -95,4 +97,13 @@ public class Item implements Serializable {
     public void setQty(int qty) {
         this.qty = qty;
     }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
 }

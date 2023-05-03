@@ -28,10 +28,27 @@
                                         <TextField fx:id="txtBillId" editable="false" HBox.hgrow="ALWAYS" />
                                     </children>
                                 </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" minWidth="100.0" prefHeight="16.0" prefWidth="100.0" text="Company ID:" />
+                              <TextField fx:id="txtCompanyId" promptText="C001" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnAddCompany" mnemonicParsing="false" onAction="#btnAddCompanyOnAction" text="+">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" />
+                              <ListView fx:id="lstCompanies" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                     <children>
                                         <Label alignment="CENTER_RIGHT" minWidth="100.0" prefHeight="16.0" prefWidth="100.0" text="Item ID:" />
-                                        <TextField fx:id="txtItemId" onAction="#txtItemId" promptText="I001" HBox.hgrow="ALWAYS" />
+                                        <TextField fx:id="txtItemId" promptText="I001" HBox.hgrow="ALWAYS" />
                               <Button fx:id="btnAddItem" mnemonicParsing="false" onAction="#btnAddItemOnAction" text="+">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
@@ -48,7 +65,7 @@
                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                     <children>
                                         <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" text="Batch No:" />
-                              <ComboBox fx:id="cmbBatchNo" onAction="#cmbBatchNoOnAction" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="cmbBatchNo" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
@@ -66,7 +83,7 @@
                                 <HBox spacing="10.0">
                                     <children>
                               <Label alignment="CENTER_RIGHT" minWidth="100.0" prefHeight="16.0" prefWidth="121.0" />
-                                        <Button fx:id="btnAdd" minWidth="66.0" mnemonicParsing="false" onAction="#btnAddOnAction" text="Add" />
+                                        <Button fx:id="btnAdd" defaultButton="true" minWidth="66.0" mnemonicParsing="false" onAction="#btnAddOnAction" text="Add" />
                                         <Button fx:id="btnCancel" minWidth="66.0" mnemonicParsing="false" onAction="#btnCancelOnAction" text="Cancel" />
                                     </children>
                                 </HBox>
@@ -78,13 +95,14 @@
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <VBox prefHeight="380.0" prefWidth="745.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="tblOrderBill" prefHeight="300.0" prefWidth="745.0">
+                        <TableView fx:id="tblOrderBill" prefHeight="300.0" prefWidth="745.0" VBox.vgrow="ALWAYS">
                           <columns>
                             <TableColumn prefWidth="82.0" text="Item ID" />
-                            <TableColumn minWidth="9.0" prefWidth="108.0" text="Batch NO" />
-                              <TableColumn prefWidth="387.0" text="Item Name" />
-                              <TableColumn minWidth="0.0" prefWidth="93.0" text="Unit Price" />
-                              <TableColumn prefWidth="73.0" text="QTY" />
+                            <TableColumn minWidth="9.0" prefWidth="95.0" text="Batch NO" />
+                              <TableColumn prefWidth="355.0" text="Item Name" />
+                              <TableColumn minWidth="0.0" prefWidth="82.0" text="Unit Price" />
+                              <TableColumn prefWidth="52.0" text="QTY" />
+                              <TableColumn text="PRICE" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -99,7 +117,7 @@
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblTotal" alignment="CENTER" prefHeight="16.0" prefWidth="75.0">
+                              <Label fx:id="lblTotal" prefHeight="25.0" prefWidth="176.0">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
