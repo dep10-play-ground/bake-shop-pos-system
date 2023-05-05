@@ -1,8 +1,15 @@
 package lk.ijse.dep10.application.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Item implements Serializable {
     private String itemCode;
     private String itemName;
@@ -13,8 +20,6 @@ public class Item implements Serializable {
     private int qty;
     private BigDecimal price;
 
-    public Item() {
-    }
 
 
     public Item(String itemCode, String itemName, int batchNo, BigDecimal unitPrice, int qty, BigDecimal price) {
@@ -56,70 +61,6 @@ public class Item implements Serializable {
         this.companyName = companyName;
         this.unitPrice = unitPrice;
         this.qty = qty;
-    }
-
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getCompanyID() {
-        return companyID;
-    }
-
-    public void setCompanyID(String companyID) {
-        this.companyID = companyID;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public int getBatchNo() {
-        return batchNo;
-    }
-
-    public void setBatchNo(int batchNo) {
-        this.batchNo = batchNo;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
 }

@@ -14,6 +14,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class ProductionController {
@@ -63,7 +64,7 @@ public class ProductionController {
 
         try {
             Statement stm = connection.createStatement();
-            String sql = "SELECT item_code,item_name FROM item_details";
+            String sql = "SELECT CONCAT('I',LPAD(item_code,3,'0')) as item_id,item_name FROM item_details";
             ResultSet rst = stm.executeQuery(sql);
             ArrayList<String> itemList = new ArrayList<>();
             while (rst.next()){
@@ -78,10 +79,14 @@ public class ProductionController {
         }
 
         txtItemID.textProperty().addListener((ov, previous, current) -> {
+            if (current==null)cmbBatchNo.getItems().clear();
+
             Connection connection1 = DBConnection.getInstance().getConnection();
             try {
                 Statement stm = connection1.createStatement();
-                String sql = "SELECT item_code,item_name FROM item_details WHERE item_code LIKE '%1$s' OR item_name LIKE '%1$s'";
+                String sql = "SELECT item_code,item_name FROM " +
+                        "(SELECT CONCAT('I',LPAD(item_code,3,0)) AS item_code,item_name FROM item_details) AS T" +
+                        " WHERE item_code LIKE '%1$s' OR item_name LIKE '%1$s'";
                 sql = String.format(sql, "%" + current + "%");
                 ResultSet rst = stm.executeQuery(sql);
 
@@ -95,43 +100,20 @@ public class ProductionController {
                 Platform.runLater(()->{
                     lstItemList.setItems(FXCollections.observableArrayList(itemList));
                 });
-
-//                lstItemList.getItems().clear();
-//                    lstItemList.getItems().addAll(itemList);
-
             } catch (SQLException e) {
-
                 throw new RuntimeException(e);
             }
         });
 
         lstItemList.getSelectionModel().selectedItemProperty().addListener((ov, previous, current) -> {
             if (current==null){
-                cmbBatchNo.getItems().clear();
                 cmbBatchNo.getSelectionModel().clearSelection();
                 return;
             }
+            String itemID = current.substring(1, 4);
+            txtItemID.setText(current);
 
-            String itemID = current.substring(0, 5);
-
-            Connection connection2 = DBConnection.getInstance().getConnection();
-            try {
-                PreparedStatement stm = connection2.prepareStatement("SELECT batch_no FROM item_batch WHERE item_code=?");
-                stm.setString(1,itemID);
-                ResultSet rst = stm.executeQuery();
-                ArrayList<String> batchNoList = new ArrayList<>();
-                while (rst.next()){
-                    String batchNo = rst.getString(1);
-                    batchNoList.add(batchNo);
-                    System.out.println(batchNo);
-                }
-                cmbBatchNo.getItems().clear();
-                cmbBatchNo.getItems().addAll(batchNoList);
-
-                txtItemID.setText(current);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            loadBatchNoList(Integer.parseInt(itemID));
         });
 
         cmbBatchNo.getSelectionModel().selectedItemProperty().addListener((ov, previous, current) -> {
@@ -139,7 +121,25 @@ public class ProductionController {
             cmbBatchNo.setValue(current);
         });
 
+        tblItemDetails.getSelectionModel().selectedItemProperty().addListener((ov, previous, current) -> {
+            if (current==null){
+                cmbBatchNo.setValue(null);
+                return;
+            }
 
+            btnAdd.setText("Update");
+            btnCancel.setText("Remove");
+
+            txtItemID.setText(current.getItemCode()+" - "+current.getItemName());
+            txtItemID.setEditable(false);
+            cmbBatchNo.setValue(current.getBatchNo()+"");
+            txtQty.setText(current.getQty()+"");
+
+
+            int selectedItemCode = Integer.parseInt(current.getItemCode().substring(1,4));
+            loadBatchNoList(selectedItemCode);
+
+        });
     }
 
     private void generateOrderId() {
@@ -171,13 +171,41 @@ public class ProductionController {
     void btnAddOnAction(ActionEvent event) {
         if (!isDataValid())return;
 
-        Connection connection = DBConnection.getInstance().getConnection();
+        String itemID = txtItemID.getText().substring(0, 4);
+        int batchNo = Integer.parseInt(cmbBatchNo.getSelectionModel().getSelectedItem());
+        int qty = Integer.parseInt(txtQty.getText());
+        String itemName = txtItemID.getText().substring(7);
 
-            String itemID = txtItemID.getText().substring(0, 5);
-            int batchNo = Integer.parseInt(cmbBatchNo.getSelectionModel().getSelectedItem());
-            int qty = Integer.parseInt(txtQty.getText());
-            String itemName = txtItemID.getText().substring(8);
-
+        if (btnAdd.getText().equals("Add")) {
+            for (Item item : tblItemDetails.getItems()) {
+                if (item.getItemCode().equals(itemID) && item.getBatchNo() == batchNo) {
+                    int newQty = item.getQty() + qty;
+                    Connection connection = DBConnection.getInstance().getConnection();
+                    try {
+                        PreparedStatement stm = connection.prepareStatement("SELECT quantity FROM item_batch WHERE item_code=? AND batch_no=?");
+                        stm.setInt(1, Integer.parseInt(item.getItemCode().substring(1, 4)));
+                        stm.setInt(2, batchNo);
+                        ResultSet rst = stm.executeQuery();
+                        if (rst.next()) {
+                            int dbQty = rst.getInt(1);
+                            if (dbQty < newQty) {
+                                new Alert(Alert.AlertType.ERROR, "Available Qty in Stock : " + (dbQty - item.getQty()) + "").show();
+                                txtQty.selectAll();
+                                txtQty.requestFocus();
+                                return;
+                            }
+                            item.setQty(newQty);
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    tblItemDetails.refresh();
+                    txtItemID.clear();
+                    txtQty.clear();
+                    cmbBatchNo.getItems().clear();
+                    return;
+                }
+            }
 
             Item item = new Item(itemID, itemName, batchNo, qty);
             tblItemDetails.getItems().add(item);
@@ -185,48 +213,120 @@ public class ProductionController {
             txtItemID.clear();
             txtQty.clear();
             cmbBatchNo.getItems().clear();
+        }
+        else if (btnAdd.getText().equals("Update")) {
+            Item selectedItem = tblItemDetails.getSelectionModel().getSelectedItem();
+            int itemQty= Integer.parseInt(txtQty.getText());
+            Connection connection = DBConnection.getInstance().getConnection();
+            try {
+                PreparedStatement stm = connection.prepareStatement("SELECT quantity FROM item_batch WHERE item_code=? AND batch_no=?");
+                stm.setInt(1, Integer.parseInt(selectedItem.getItemCode().substring(1, 4)));
+                stm.setInt(2, Integer.parseInt(cmbBatchNo.getValue()));
+                ResultSet rst = stm.executeQuery();
+                if (rst.next()) {
+                    int dbQty = rst.getInt(1);
+                    if (dbQty < itemQty) {
+                        new Alert(Alert.AlertType.ERROR, "Available Qty in Stock : " + dbQty + "").show();
+                        txtQty.selectAll();
+                        txtQty.requestFocus();
+                        return;
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            selectedItem.setQty(itemQty);
+                selectedItem.setBatchNo(Integer.parseInt(cmbBatchNo.getValue()));
+                tblItemDetails.refresh();
+            txtItemID.clear();
+            txtQty.clear();
+            cmbBatchNo.getItems().clear();
+            txtItemID.requestFocus();
+            tblItemDetails.getSelectionModel().clearSelection();
+
+            txtItemID.setEditable(true);
+            btnAdd.setText("Add");
+            btnCancel.setText("Cancel");
+        }
+        txtItemID.requestFocus();
     }
 
     private boolean isDataValid() {
         boolean dataValid = true;
-        if (txtQty.getText().isEmpty() || !txtQty.getText().matches("\\d")){
-            dataValid = false;
-            
+
+        if (txtItemID.getText().toCharArray().length<4){
+            txtItemID.requestFocus();
+            return false;
         }
 
-        String itemCode = txtItemID.getText().substring(0, 5);
-        int batchNo = Integer.parseInt(cmbBatchNo.getSelectionModel().getSelectedItem());
-        String sql = "SELECT quantity FROM item_batch WHERE item_code='%s' AND batch_no='%d'";
-        sql = String.format(sql, itemCode, batchNo);
-        Connection connection = DBConnection.getInstance().getConnection();
-        try {
-            Statement stm = connection.createStatement();
-            ResultSet rst = stm.executeQuery(sql);
-            rst.next();
-            int storeItemQty = rst.getInt(1);
-            int filledItemQty = Integer.parseInt(txtQty.getText());
-            if (filledItemQty>storeItemQty) {
-                dataValid = false;
-                new Alert(Alert.AlertType.ERROR,"Enter a valid Qty").show();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (txtQty.getText().isEmpty() || !txtQty.getText().matches("[\\d]+")){
+            txtQty.requestFocus();
+            dataValid=false;
         }
+
+        if (!txtItemID.getText().isEmpty() && !cmbBatchNo.getSelectionModel().isEmpty() &&
+                !txtQty.getText().trim().isEmpty()) {
+            String itemCode = txtItemID.getText().substring(1, 4);
+            int batchNo = Integer.parseInt(cmbBatchNo.getSelectionModel().getSelectedItem());
+            String sql = "SELECT quantity FROM item_batch WHERE item_code='%s' AND batch_no='%d'";
+            sql = String.format(sql, itemCode, batchNo);
+            Connection connection = DBConnection.getInstance().getConnection();
+            try {
+                Statement stm = connection.createStatement();
+                ResultSet rst = stm.executeQuery(sql);
+                rst.next();
+                int storeItemQty = rst.getInt(1);
+                int filledItemQty = Integer.parseInt(txtQty.getText());
+                if (filledItemQty>storeItemQty) {
+                    dataValid = false;
+                    txtQty.selectAll();
+                    txtQty.requestFocus();
+                    new Alert(Alert.AlertType.ERROR,"Available Qty On Store : "+storeItemQty+"").show();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        if (cmbBatchNo.getValue().isEmpty() ){
+            cmbBatchNo.requestFocus();
+            dataValid = false;
+        }
+
         return dataValid;
     }
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
-
+        if (btnCancel.getText().equals("Remove")){
+            tblItemDetails.getItems().remove(tblItemDetails.getSelectionModel().getSelectedItem());
+            btnCancel.setText("Cancel");
+            btnAdd.setText("Add");
+        }
+        txtItemID.clear();
+        txtQty.clear();
+        cmbBatchNo.setValue(null);
+        cmbBatchNo.getSelectionModel().clearSelection();
+        tblItemDetails.getSelectionModel().clearSelection();
+        txtItemID.requestFocus();
     }
 
     @FXML
     void btnCancelOrderOnAction(ActionEvent event) {
-
+        tblItemDetails.getItems().clear();
+        tblItemDetails.refresh();
+        txtItemID.requestFocus();
     }
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
+        if (tblItemDetails.getItems().isEmpty()){
+            new Alert(Alert.AlertType.INFORMATION,"Item List is Empty").show();
+            return;
+        }
+
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "INSERT INTO production_item ( date, user_name) VALUES (?,?)";
         try {
@@ -248,7 +348,7 @@ public class ProductionController {
             int orderId = Integer.parseInt(txtOrderID.getText().substring(4));
 
             for (Item item : tblItemDetails.getItems()) {
-                String itemID = item.getItemCode();
+                String itemID = item.getItemCode().substring(1,4);
                 int batchNo = item.getBatchNo();
                 int qty = item.getQty();
 
@@ -292,4 +392,43 @@ public class ProductionController {
         }
     }
 
+    private void loadBatchNoList(int itemCode){
+        Connection connection2 = DBConnection.getInstance().getConnection();
+        try {
+            PreparedStatement stm = connection2.prepareStatement("SELECT batch_no FROM item_batch WHERE item_code=?");
+            stm.setInt(1,itemCode);
+            ResultSet rst = stm.executeQuery();
+            ArrayList<String> batchNoList = new ArrayList<>();
+            while (rst.next()){
+                String batchNo = rst.getString(1);
+                batchNoList.add(batchNo);
+            }
+            cmbBatchNo.getItems().clear();
+            cmbBatchNo.getItems().addAll(batchNoList);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void qtyValidation(int itemCode, int batchNo, int newQty){
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        try {
+//            PreparedStatement stm = connection.prepareStatement("SELECT quantity FROM item_batch WHERE item_code=? AND batch_no=?");
+//            stm.setInt(1, itemCode);
+//            stm.setInt(2, batchNo);
+//            ResultSet rst = stm.executeQuery();
+//            if (rst.next()) {
+//                int dbQty = rst.getInt(1);
+//                if (dbQty < newQty) {
+//                    new Alert(Alert.AlertType.ERROR, "Available Qty in Stock : " + (dbQty - item.getQty()) + "").show();
+//                    txtQty.selectAll();
+//                    txtQty.requestFocus();
+//                    return;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
 }
