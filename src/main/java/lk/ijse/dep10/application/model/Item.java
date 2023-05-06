@@ -62,5 +62,4 @@ public class Item implements Serializable {
         this.unitPrice = unitPrice;
         this.qty = qty;
     }
-
 }

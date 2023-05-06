@@ -5,11 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.model.Item;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,9 +26,6 @@ public class ProductionController {
 
     @FXML
     private Button btnAdd;
-
-    @FXML
-    private Button btnAddNewItem;
 
     @FXML
     private Button btnCancel;
@@ -163,11 +165,6 @@ public class ProductionController {
     }
 
     @FXML
-    void btnAddNewItemOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
     void btnAddOnAction(ActionEvent event) {
         if (!isDataValid())return;
 
@@ -255,14 +252,21 @@ public class ProductionController {
     private boolean isDataValid() {
         boolean dataValid = true;
 
-        if (txtItemID.getText().toCharArray().length<4){
+        if (txtItemID.getText().toCharArray().length<4 ||
+                !txtItemID.getText().matches("[I][\\d]{3}[\\w\\s-]+")){
             txtItemID.requestFocus();
+            new Alert(Alert.AlertType.ERROR,"Select a Item From The List").show();
             return false;
         }
 
         if (txtQty.getText().isEmpty() || !txtQty.getText().matches("[\\d]+")){
             txtQty.requestFocus();
             dataValid=false;
+        }
+
+        if (cmbBatchNo.getValue() ==null){
+            cmbBatchNo.requestFocus();
+            dataValid = false;
         }
 
         if (!txtItemID.getText().isEmpty() && !cmbBatchNo.getSelectionModel().isEmpty() &&
@@ -290,10 +294,6 @@ public class ProductionController {
         }
 
 
-        if (cmbBatchNo.getValue().isEmpty() ){
-            cmbBatchNo.requestFocus();
-            dataValid = false;
-        }
 
         return dataValid;
     }
