@@ -8,11 +8,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.model.Company;
+import lk.ijse.dep10.application.model.User;
+import lk.ijse.dep10.application.util.PasswordEncoder;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SupplierSceneController {
@@ -55,6 +54,7 @@ public class SupplierSceneController {
 
     @FXML
     private TextField txtRefName;
+    private int databaseCompanyId;
 
     public void initialize(){
         tblDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("companyId"));
@@ -80,30 +80,43 @@ public class SupplierSceneController {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement stm = connection.createStatement();
             ResultSet rst = stm.executeQuery("SELECT * FROM company");
+            PreparedStatement stm2 = connection.prepareStatement("SELECT * FROM company_contact WHERE company_id=?");
+
             ObservableList<Company> companyList = tblDetails.getItems();
 
-//            while (rst.next()) {
-//                String companyId = rst.getString("company_id");
-//                String companyName = rst.getString("company_name");
-//                String companyAddress = rst.getString("company_address");
-//                ArrayList<String> companyContact = rst.getString("company_contact");
-//                String companyEmail = rst.getString("company_email");
-//                companyList.add(new Company(companyId,companyName,companyAddress,companyContact,companyEmail));
-//            }
-            Platform.runLater(btnAddNewSupplier::fire);
+        while (rst.next()){
+                String companyId = rst.getString("company_id");
+                String companyName = rst.getString("company_name");
+                String email = rst.getString("email");
+                String address = rst.getString("address");
+
+                ArrayList<String> contactList = new ArrayList<>();
+
+                stm2.setString(1,companyId);
+                ResultSet rstContacts = stm2.executeQuery();
+
+                while (rstContacts.next()){
+                    String contact = rstContacts.getString("contact");
+                    contactList.add(contact);
+                }
+
+                Company company = new Company(companyId,companyName,address,contactList,email);
+                tblDetails.getItems().add(company);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR,"Failed to load companies details, try again!").show();
-            Platform.exit();
+
         }
     }
 
     @FXML
     void btnAddNewSupplierOnAction(ActionEvent event) {
-        ObservableList<Company> customerList = tblDetails.getItems();
-        var newId = customerList.isEmpty()? "1":
-                customerList.get(customerList.size() - 1).getCompanyId() + 1;
-        txtCompanyId.setText("C"+newId + "");
+        int companyId=findCompanyId();
+        databaseCompanyId=companyId;
+        String formatedNumber=String.format("C%03d",companyId);
+
+        txtCompanyId.setText(formatedNumber);
         txtCompanyName.clear();
         txtAddress.clear();
         txtContactNo.clear();
@@ -115,6 +128,26 @@ public class SupplierSceneController {
         txtCompanyName.getStyleClass().remove("invalid");
         txtAddress.getStyleClass().remove("invalid");
         lstContact.getStyleClass().remove("invalid");
+
+    }
+    private int findCompanyId(){
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "SELECT MAX(company_id) FROM company";
+        int maxCompanyId = 0;
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet resultSet = stm.executeQuery();
+            if (resultSet.next()) {
+                maxCompanyId = resultSet.getInt(1)+1;
+                return maxCompanyId;
+            }
+            return 2;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
 
     }
 
@@ -137,6 +170,8 @@ public class SupplierSceneController {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
 
+
+
     }
 
     @FXML
@@ -147,7 +182,76 @@ public class SupplierSceneController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        if (!isDataValid()) return;
+//        if (!isDataValid()) return;
+
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            if (!lstContact.getItems().isEmpty()){
+                String sql = "SELECT * FROM company_contact WHERE contact=?";
+                PreparedStatement stm = connection.prepareStatement(sql);
+                for (String contact : lstContact.getItems()) {
+                    stm.setString(1,contact);
+                    if (stm.executeQuery().next()){
+                        new Alert(Alert.AlertType.ERROR, contact + " already exists").show();
+                        lstContact.getStyleClass().add("invalid");
+                        return;
+                    }
+                }
+            }
+
+            connection.setAutoCommit(false);
+
+            String sql = "INSERT INTO company (company_id,company_name,email,address) " +
+                    "VALUES (?,?,?,?)";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1,databaseCompanyId+"");
+            stm.setString(2,txtCompanyName.getText());
+            stm.setString(3,txtEmail.getText());
+            stm.setString(4,txtAddress.getText());
+            stm.executeUpdate();
+
+            if (!lstContact.getItems().isEmpty()){
+                String sql2 = "INSERT INTO company_contact (company_id, contact) " +
+                        "VALUES (?,?)";
+                PreparedStatement stmContact = connection.prepareStatement(sql2);
+                for (String contact : lstContact.getItems()) {
+                    stmContact.setString(1,databaseCompanyId+"");
+                    stmContact.setString(2,contact);
+                    stmContact.executeUpdate();
+                }
+            }
+            connection.commit();
+
+            Company company = new Company(txtCompanyId.getText(),
+                    txtCompanyName.getText(),
+                    txtAddress.getText(),
+                    new ArrayList<>(lstContact.getItems()),
+                    txtEmail.getText()
+            );
+            tblDetails.getItems().add(company);
+
+            new Alert(Alert.AlertType.INFORMATION,"Company Added Successfully..").show();
+            btnAddNewSupplier.fire();
+
+        } catch (SQLException e) {
+            try {
+                DBConnection.getInstance().getConnection().rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to add a new Company, Try Again..!").show();
+        } finally {
+            try {
+                DBConnection.getInstance().getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
 
     }
     private boolean isDataValid(){
@@ -168,7 +272,7 @@ public class SupplierSceneController {
             dataValid = false;
         }
 
-        if (!name.matches("[A-Za-z ]+")){
+        if (!name.matches("\"[A-Za-z0-9]{3,}")){
             txtCompanyName.requestFocus();
             txtCompanyName.selectAll();
             txtCompanyName.getStyleClass().add("invalid");
@@ -182,6 +286,9 @@ public class SupplierSceneController {
         }
 
         return dataValid;
+
+
     }
+
 
 }

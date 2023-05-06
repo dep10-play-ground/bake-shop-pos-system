@@ -23,7 +23,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" minWidth="113.0" text="Company ID: " />
-                              <TextField fx:id="txtCompanyId" prefWidth="275.0" promptText="Eg : CXXX" />
+                              <TextField fx:id="txtCompanyId" disable="true" prefWidth="275.0" promptText="Eg : CXXX" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
