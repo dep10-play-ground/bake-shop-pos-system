@@ -57,6 +57,7 @@ public class SupplierSceneController {
     private int databaseCompanyId;
 
     public void initialize(){
+
         tblDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("companyId"));
         tblDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("companyName"));
         tblDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("companyAddress"));
@@ -100,8 +101,9 @@ public class SupplierSceneController {
                     contactList.add(contact);
                 }
 
-                Company company = new Company(companyId,companyName,address,contactList,email);
+                Company company = new Company(String.format("C%03d",Integer.parseInt(companyId)),companyName,address,contactList,email);
                 tblDetails.getItems().add(company);
+                tblDetails.getSelectionModel().clearSelection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,11 +114,6 @@ public class SupplierSceneController {
 
     @FXML
     void btnAddNewSupplierOnAction(ActionEvent event) {
-        int companyId=findCompanyId();
-        databaseCompanyId=companyId;
-        String formatedNumber=String.format("C%03d",companyId);
-
-        txtCompanyId.setText(formatedNumber);
         txtCompanyName.clear();
         txtAddress.clear();
         txtContactNo.clear();
@@ -129,6 +126,11 @@ public class SupplierSceneController {
         txtAddress.getStyleClass().remove("invalid");
         lstContact.getStyleClass().remove("invalid");
 
+        int companyId=findCompanyId();
+        databaseCompanyId=companyId;
+        String formatedNumber=String.format("C%03d",companyId);
+
+        txtCompanyId.setText(formatedNumber);
     }
     private int findCompanyId(){
         Connection connection = DBConnection.getInstance().getConnection();
@@ -169,8 +171,29 @@ public class SupplierSceneController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        Company selectedCompany = tblDetails.getSelectionModel().getSelectedItem();
 
+        if (selectedCompany != null) {
+            try (Connection connection = DBConnection.getInstance().getConnection()) {
+                // Create a PreparedStatement to execute a DELETE SQL statement
+                String sql = "DELETE FROM company WHERE company_id = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
+                // Set the parameter value of the PreparedStatement to the selected company's id
+                preparedStatement.setString(1, selectedCompany.getCompanyId());
+
+                // Execute the PreparedStatement to delete the selected company from the database
+                preparedStatement.executeUpdate();
+
+                // Remove the selected Company object from the TableView
+                tblDetails.getItems().remove(selectedCompany);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to delete the selected company!").show();
+            }
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Please select a company to delete!").show();
+        }
 
     }
 
