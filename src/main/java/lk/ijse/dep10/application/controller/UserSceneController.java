@@ -11,6 +11,7 @@ import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.model.User;
 import lk.ijse.dep10.application.util.PasswordEncoder;
 import lk.ijse.dep10.application.util.UserRole;
+import lombok.ToString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -150,13 +151,14 @@ public class UserSceneController {
             connection.setAutoCommit(false);
 
             String sql = "INSERT INTO Employee (user_name, password, role, full_name,address) " +
-                    "VALUES (?,?,'USER',?,?)";
+                    "VALUES (?,?,?,?,?)";
 
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1,txtUsername.getText());
             stm.setString(2,PasswordEncoder.encode(txtPassword.getText()));
-            stm.setString(3,txtFullName.getText());
-            stm.setString(4,txtAddress.getText());
+            stm.setString(3, rdoAdmin.isSelected()?UserRole.ADMIN.toString():UserRole.USER.toString());
+            stm.setString(4,txtFullName.getText());
+            stm.setString(5,txtAddress.getText());
             stm.executeUpdate();
 
             if (!lstContactList.getItems().isEmpty()){
@@ -289,7 +291,7 @@ public class UserSceneController {
             txtContactNumber.getStyleClass().add("invalid");
             txtContactNumber.requestFocus();
         }
-        if(txtAddress.getText().isEmpty() || txtAddress.getText().length()>3){
+        if(txtAddress.getText().isEmpty() || txtAddress.getText().length()<3){
             dataValid = false;
             txtAddress.getStyleClass().add("invalid");
             txtAddress.requestFocus();
