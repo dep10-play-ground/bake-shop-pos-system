@@ -150,15 +150,21 @@ public class UserSceneController {
 
             connection.setAutoCommit(false);
 
+            User user = new User(txtUsername.getText(),
+                    txtFullName.getText(),
+                    new ArrayList<>(lstContactList.getItems()),
+                    txtAddress.getText(), rdoAdmin.isSelected()?UserRole.ADMIN:UserRole.USER);
+            tblDetails.getItems().add(user);
+
             String sql = "INSERT INTO Employee (user_name, password, role, full_name,address) " +
                     "VALUES (?,?,?,?,?)";
 
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1,txtUsername.getText());
+            stm.setString(1,user.getUserName());
             stm.setString(2,PasswordEncoder.encode(txtPassword.getText()));
-            stm.setString(3, rdoAdmin.isSelected()?UserRole.ADMIN.toString():UserRole.USER.toString());
-            stm.setString(4,txtFullName.getText());
-            stm.setString(5,txtAddress.getText());
+            stm.setString(3, user.getUserRole().toString());
+            stm.setString(4, user.getFullName());
+            stm.setString(5,user.getAddress());
             stm.executeUpdate();
 
             if (!lstContactList.getItems().isEmpty()){
@@ -173,11 +179,7 @@ public class UserSceneController {
             }
             connection.commit();
 
-            User user = new User(txtUsername.getText(),
-                    txtFullName.getText(),
-                    new ArrayList<>(lstContactList.getItems()),
-                    txtAddress.getText(), rdoAdmin.isSelected()?UserRole.ADMIN:UserRole.USER);
-            tblDetails.getItems().add(user);
+
 
             new Alert(Alert.AlertType.INFORMATION,"User Added Successfully..").show();
             btnAddNewUser.fire();
