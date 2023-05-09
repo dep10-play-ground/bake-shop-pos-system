@@ -11,7 +11,6 @@ import lk.ijse.dep10.application.db.DBConnection;
 import lk.ijse.dep10.application.model.User;
 import lk.ijse.dep10.application.util.PasswordEncoder;
 import lk.ijse.dep10.application.util.UserRole;
-import lombok.ToString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -135,18 +134,7 @@ public class UserSceneController {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
-            if (!lstContactList.getItems().isEmpty()){
-                String sql = "SELECT * FROM Employee_contact WHERE contact=?";
-                PreparedStatement stm = connection.prepareStatement(sql);
-                for (String contact : lstContactList.getItems()) {
-                    stm.setString(1,contact);
-                    if (stm.executeQuery().next()){
-                        new Alert(Alert.AlertType.ERROR, contact + " already exists").show();
-                        lstContactList.getStyleClass().add("invalid");
-                        return;
-                    }
-                }
-            }
+
 
             connection.setAutoCommit(false);
 
@@ -154,35 +142,70 @@ public class UserSceneController {
                     txtFullName.getText(),
                     new ArrayList<>(lstContactList.getItems()),
                     txtAddress.getText(), rdoAdmin.isSelected()?UserRole.ADMIN:UserRole.USER);
-            tblDetails.getItems().add(user);
 
-            String sql = "INSERT INTO Employee (user_name, password, role, full_name,address) " +
-                    "VALUES (?,?,?,?,?)";
 
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1,user.getUserName());
-            stm.setString(2,PasswordEncoder.encode(txtPassword.getText()));
-            stm.setString(3, user.getUserRole().toString());
-            stm.setString(4, user.getFullName());
-            stm.setString(5,user.getAddress());
-            stm.executeUpdate();
+            User selectedUser = tblDetails.getSelectionModel().getSelectedItem();
 
-            if (!lstContactList.getItems().isEmpty()){
-                String sql2 = "INSERT INTO Employee_contact (user_name, contact) " +
-                        "VALUES (?,?)";
-                PreparedStatement stmContact = connection.prepareStatement(sql2);
-                for (String contact : lstContactList.getItems()) {
-                    stmContact.setString(1,txtUsername.getText());
-                    stmContact.setString(2,contact);
-                    stmContact.executeUpdate();
+            if (selectedUser == null) {
+
+                if (!lstContactList.getItems().isEmpty()){
+                    String sql = "SELECT * FROM Employee_contact WHERE contact=?";
+                    PreparedStatement stm = connection.prepareStatement(sql);
+                    for (String contact : lstContactList.getItems()) {
+                        stm.setString(1,contact);
+                        if (stm.executeQuery().next()){
+                            new Alert(Alert.AlertType.ERROR, contact + " already exists").show();
+                            lstContactList.getStyleClass().add("invalid");
+                            return;
+                        }
+                    }
                 }
+
+                String sql = "INSERT INTO Employee (user_name, password, role, full_name,address) " +
+                        "VALUES (?,?,?,?,?)";
+
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1, user.getUserName());
+                stm.setString(2, PasswordEncoder.encode(txtPassword.getText()));
+                stm.setString(3, user.getUserRole().toString());
+                stm.setString(4, user.getFullName());
+                stm.setString(5, user.getAddress());
+                stm.executeUpdate();
+
+                tblDetails.getItems().add(user);
+
+                if (!lstContactList.getItems().isEmpty()){
+                    String sql3 = "INSERT INTO Employee_contact (user_name, contact) " +
+                            "VALUES (?,?)";
+                    PreparedStatement stmContact = connection.prepareStatement(sql3);
+                    for (String contact : lstContactList.getItems()) {
+                        stmContact.setString(1,txtUsername.getText());
+                        stmContact.setString(2,contact);
+                        stmContact.executeUpdate();
+                    }
+                }
+                connection.commit();
+
+                new Alert(Alert.AlertType.INFORMATION,"User Added Successfully..").show();
+                btnAddNewUser.fire();
+            }else {
+                txtUsername.setEditable(false);
+                String sql2 = "Update Employee SET full_name=?,address=?, role=? ,password=? WHERE user_name=?";
+                PreparedStatement stmUpdate = connection.prepareStatement(sql2);
+                stmUpdate.setString(1, user.getFullName());
+                stmUpdate.setString(2, user.getAddress());
+                stmUpdate.setString(3,user.getUserRole().toString());
+                stmUpdate.setString(4,PasswordEncoder.encode(txtPassword.getText()));
+                stmUpdate.setString(5, user.getUserName());
+                stmUpdate.executeUpdate();
+                tblDetails.getItems().remove(tblDetails.getSelectionModel().getSelectedItem());
+                tblDetails.getItems().add(user);
+                new Alert(Alert.AlertType.CONFIRMATION, "User "+ user.getUserName() + " Modified Successfully").show();
+
+
             }
-            connection.commit();
 
 
-
-            new Alert(Alert.AlertType.INFORMATION,"User Added Successfully..").show();
-            btnAddNewUser.fire();
 
         } catch (SQLException e) {
             try {
