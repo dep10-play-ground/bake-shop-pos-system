@@ -61,8 +61,7 @@ public class SupplierSceneController {
         tblDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("companyId"));
         tblDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("companyName"));
         tblDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("companyAddress"));
-        tblDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("contactContact"));
-        tblDetails.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("email"));
+        tblDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("email"));
 
         loadAllCompanies();
 
@@ -173,27 +172,32 @@ public class SupplierSceneController {
     void btnDeleteOnAction(ActionEvent event) {
         Company selectedCompany = tblDetails.getSelectionModel().getSelectedItem();
 
-        if (selectedCompany != null) {
-            try (Connection connection = DBConnection.getInstance().getConnection()) {
+
+            try  {
+                Connection connection = DBConnection.getInstance().getConnection();
+                String sql2="DELETE FROM company_contact WHERE company_id=?";
+                PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
+                preparedStatement2.setInt(1, Integer.parseInt(selectedCompany.getCompanyId().substring(1,(selectedCompany.getCompanyId().length()))));
+                preparedStatement2.executeUpdate();
+
+
                 // Create a PreparedStatement to execute a DELETE SQL statement
                 String sql = "DELETE FROM company WHERE company_id = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
                 // Set the parameter value of the PreparedStatement to the selected company's id
-                preparedStatement.setString(1, selectedCompany.getCompanyId());
+                preparedStatement.setInt(1, Integer.parseInt(selectedCompany.getCompanyId().substring(1,selectedCompany.getCompanyId().length())));
 
                 // Execute the PreparedStatement to delete the selected company from the database
                 preparedStatement.executeUpdate();
 
                 // Remove the selected Company object from the TableView
                 tblDetails.getItems().remove(selectedCompany);
+                tblDetails.getSelectionModel().clearSelection();
             } catch (SQLException e) {
                 e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Failed to delete the selected company!").show();
             }
-        } else {
-            new Alert(Alert.AlertType.WARNING, "Please select a company to delete!").show();
-        }
 
     }
 
