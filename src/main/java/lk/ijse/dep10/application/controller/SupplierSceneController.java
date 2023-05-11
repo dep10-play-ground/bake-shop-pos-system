@@ -193,7 +193,6 @@ public class SupplierSceneController {
                 Connection connection = DBConnection.getInstance().getConnection();
                 String sql2="UPDATE company_contact SET contact=?WHERE company_id=?";
                 PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
-                preparedStatement2.setString(1,l);
                 preparedStatement2.setInt(2, Integer.parseInt(selectedCompany.getCompanyId().substring(1,(selectedCompany.getCompanyId().length()))));
                 preparedStatement2.executeUpdate();
 
