@@ -99,3 +99,4 @@ CREATE TABLE IF NOT EXISTS production_item_details
     CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES production_item (order_id),
     CONSTRAINT fk_production_batch_no FOREIGN KEY (item_code, batch_no) REFERENCES item_batch (item_code, batch_no)
 );
+
