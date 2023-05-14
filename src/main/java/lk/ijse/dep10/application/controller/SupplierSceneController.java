@@ -86,6 +86,21 @@ public class SupplierSceneController {
             lstContact.getItems().clear();
             lstContact.getItems().addAll(current.getCompanyContact());
             txtEmail.setText(current.getEmail());
+
+            Company selectedCompany = tblDetails.getSelectionModel().getSelectedItem();
+
+            Connection connection = DBConnection.getInstance().getConnection();
+            String sql2="DELETE FROM company_contact WHERE company_id=?";
+            PreparedStatement preparedStatement2 = null;
+            try {
+                preparedStatement2 = connection.prepareStatement(sql2);
+                preparedStatement2.setInt(1, Integer.parseInt(selectedCompany.getCompanyId().substring(1,(selectedCompany.getCompanyId().length()))));
+                preparedStatement2.executeUpdate();
+                connection.setAutoCommit(false);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         });
     }
     private void loadAllCompanies() {
@@ -188,13 +203,31 @@ public class SupplierSceneController {
         String selectedCompanyId=selectedCompany.getCompanyId();
 
 
+
+
             try  {
 
                 Connection connection = DBConnection.getInstance().getConnection();
-                String sql2="UPDATE company_contact SET contact=?WHERE company_id=?";
-                PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
-                preparedStatement2.setInt(2, Integer.parseInt(selectedCompany.getCompanyId().substring(1,(selectedCompany.getCompanyId().length()))));
-                preparedStatement2.executeUpdate();
+                //update contact table ................................................
+                System.out.println(lstContact.getItems());
+
+                if (!lstContact.getItems().isEmpty()){
+                    String sql = "SELECT * FROM company_contact WHERE contact=?";
+                    PreparedStatement stm = connection.prepareStatement(sql);
+                    for (String contact : lstContact.getItems()) {
+                        stm.setString(1,contact);
+                        if (stm.executeQuery().next()){
+                            new Alert(Alert.AlertType.ERROR, contact + " already exists").show();
+                            lstContact.getStyleClass().add("invalid");
+                            return;
+                        }
+                    }
+                }
+
+
+
+                ///////////////////////////////////////////////////////////////////////
+
 
                 String sql = "UPDATE company SET company_name=?,email=?,address=? WHERE company_id = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -208,8 +241,10 @@ public class SupplierSceneController {
 
                 preparedStatement.executeUpdate();
 
+//
+//                tblDetails.getSelectionModel().select(selectedCompany);
 
-                tblDetails.getItems().remove(selectedCompany);
+
 
                 Company company = new Company(selectedCompanyId,
                         txtCompanyName.getText(),
@@ -218,7 +253,9 @@ public class SupplierSceneController {
                         txtEmail.getText()
                 );
                 tblDetails.getItems().add(company);
-                tblDetails.getSelectionModel().clearSelection();
+                if(company.getCompanyId()==selectedCompanyId && tblDetails.getSelectionModel().getSelectedItem()==null){
+                    tblDetails.getItems().removeAll();
+                }
 
 
             } catch (SQLException e) {
